@@ -1,7 +1,7 @@
 django-djson
 ============
 
-Django utilities making dealing with json stuff easier. It includes
+Django utilities making dealing with json easier. It includes
 
   * a JSONResponse class
   * as_json decorator
