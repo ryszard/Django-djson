@@ -1,5 +1,6 @@
 from exceptions import JSONException, LoginRequired
 from http import JSONResponse
+from django.http import HttpResponseForbidden
 from django.contrib.auth.decorators import login_required as login_required_old
 from django.http import HttpResponse
 from functools import wraps
@@ -46,6 +47,19 @@ def login_required(function):
         if not request.is_ajax():
 
             return login_required_old(function)(request, *a, **kw)
+        if request.user.is_authenticated():
+            return function(request, *a, **kw)
+        else:
+            raise LoginRequired(request)
+    return wrapper
+
+def ajax_login_required(function):
+    @wraps(function)
+    @with_ajax_errors
+    def wrapper(request, *a, **kw):
+        if not request.is_ajax():
+
+            return HttpResponseForbidden("This page is supposed to be called only from an Ajax request.")
         if request.user.is_authenticated():
             return function(request, *a, **kw)
         else:
