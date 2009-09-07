@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.conf import settings
 from django.views.decorators.cache import never_cache
 
-from decorators import login_required, ajax
+from decorators import login_required
 
 try:
     import json
@@ -20,11 +20,11 @@ def test_login(request):
 from django.conf.urls.defaults import *
 
 urlpatterns = patterns('',
-                    url(r'^login', 'jsonviews.tests.test_login', name='login'),
+                    url(r'^login', test_login, name='login'),
                     )
 
 class JSONTest(TestCase):
-    urls = 'jsonviews.tests'
+    urls = 'djson.tests'
 
     def setUp(self):
         from django.contrib.auth.models import User
